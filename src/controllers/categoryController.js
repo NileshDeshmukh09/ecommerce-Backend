@@ -1,7 +1,8 @@
 const Category =require('../models/category');
 
 module.exports = {
-    listCategories: function(req, res){
+    listCategories: function(req, res){// function to call Category Model
+        
         Category.listCategories(function (err, result){
            if(err){
                console.log(err);
