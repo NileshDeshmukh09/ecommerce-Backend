@@ -5,8 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
 
-var indexRouter = require('./routes/index');
-var apiRouter = require('./routes/api');
+
+var indexRouter = require('./routes/api/v1/index');
+// var apiRouter = require('./routes/api');
 
 var app = express();
 
@@ -21,8 +22,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-app.use('/', indexRouter);
-app.use('/api', apiRouter);
+app.use('/', indexRouter); //whenever we will hit any URL starting with '/' then we will Invoke the IndexRouter
+// app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

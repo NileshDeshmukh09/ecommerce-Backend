@@ -1,11 +1,20 @@
 const sqlConnection = require("../services/sqlConnection");
 
-module.exports = {
-	listCategories: function(callback) {
-		var sql = "SELECT ID as categoryId, Name as name FROM Categories";
-		var values = [];
-		sqlConnection.executeQuery(sql, values, function(err, result) {
-			callback(err, result);
-		});
-	}
-};
+    function listCategories(cb){ //cb is representing the functionality of caller
+        var sql = "Select ID as categoryID, Name as name FROM Categories";
+        var data =[] //because the above sql doesn't need any data.
+        sqlConnection.executeQuery(sql, data, function(err, result){
+            cb(err, result);
+        })
+    }
+
+    // function filterProducts(cb){
+    //     var sql = "Select Max(Prcie), Min(Price) FROM Products";
+    //     var data =[];
+    //     sqlConnection.executeQuery(sql,data, function(err, result){
+    //         cb(err,result);
+    //     })
+    // }
+
+    
+module.exports = {listCategories}
