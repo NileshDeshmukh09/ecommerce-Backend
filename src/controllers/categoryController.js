@@ -7,7 +7,7 @@ module.exports = {
            if(err){
                console.log(err);
                return res.status(500).send({
-                   msg: "Error in fetching Categories, Ohh !",
+                   msg: "Error in fetching Categories !",
                    success : false,
                 //    status : 500 // Internal server Error
                 });
