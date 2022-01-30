@@ -1,4 +1,4 @@
-const Product = require("../models/products");
+const Product = require("../models/product");
 
 function listProducts(req, res) {
     let data = req.body;
