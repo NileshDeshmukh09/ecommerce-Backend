@@ -1,4 +1,5 @@
 const sqlConnection = require("../services/sqlConnection");
+const bcrypt = require("bcryptjs");
 
 function signup(data, cb) {
     let sql = `INSERT INTO Users 
@@ -10,6 +11,25 @@ function signup(data, cb) {
     sqlConnection.executeQuery(sql, values, function(err, result) {
         cb(err, result);
     });
+}
+// bcryptjs signup
+function strongSignup(data, cb){
+    let sql = `INSERT INTO Users 
+               (Username, Password, CreatedAt, UpdatedAt)
+               Values (? , ? , now(), now())`;
+    let values = [];
+    values.push(data.username);
+    bcrypt.hash(data.password, 8, function(err, hash){
+        if(err){
+            console.log(err);
+            return;
+        }
+        values.push(hash);
+        sqlConnection.executeQuery(sql, values, function(err, result) {
+            cb(err, result);
+        });
+    });
+    
 }
 
 function getUsersSignupDetails(data, cb) {
@@ -32,4 +52,26 @@ function login(data, cb) {
     });
 }
 
-module.exports = {signup, getUsersSignupDetails, login};
+function strongLogin(data, cb){
+    let sql = `SELECT ID as UserId , Username, Password, UserType
+                FROM Users WHERE
+                Username = ? `;
+    let values =[];
+    values.push(data.username);
+    sqlConnection.executeQuery(sql , values , function(err, result){
+        const isValidPass = bcrypt.compareSync(data.password , result[0].Password);
+        if(isValidPass){
+            const response =  [
+                {
+                    UserId : result.UserId,
+                    Username : result.Username,
+                    UserType : result.UserType
+                }
+            ];
+            cb(err, response);
+        }else{
+            cb(err, []);
+        }
+    })
+}
+module.exports = {signup, getUsersSignupDetails, login, strongSignup, strongLogin};
