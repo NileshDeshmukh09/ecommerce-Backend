@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const auth = require("../util/auth");
 
 function signup(req, res) {
     let data = req.body;
@@ -67,4 +68,24 @@ function login(req, res) {
     }
 }
 
-module.exports = {signup, login};
+function isAuthenticated(req, res, next){
+    const token = req.headers.auth;
+    let response;
+    try{
+        response = auth.verifyToken(token);
+    }
+    catch(err){
+        console.log(err);
+        return res.status(401).send({message : "Invalid Token"})
+    }
+
+    const user = User.getUserById(response.id, function(err, result){
+        if(err){
+            return res.status(401).send({message : "Invalid User"})
+        }
+        req.user = result;
+        next();
+    });
+}
+
+module.exports = {signup, login, isAuthenticated};
