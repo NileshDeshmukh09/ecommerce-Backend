@@ -57,7 +57,8 @@ function login(req, res) {
             responseData.msg = "Successfully logged in ";
             responseData.data = {
                 username: result[0].Username,
-                userId: result[0].UserId
+                userId: result[0].UserId,
+                authToken : result[0].authToken
             };
             return res.status(200).send(responseData);
         })
