@@ -45,4 +45,12 @@ function addProduct(data, cb){
 
 }
 
-module.exports = {listProducts, addProduct};
+function getProductDetails(data,cb){
+    var sql =`SELECT p.Name AS name , p.price AS price, p.description AS description,
+              if(SELECT COUNT(*) FROM OrderDetails AS od LEFT JOIN OrderItems AS oi 
+              ON oi.OrderID = od.ID 
+              WHERE oi.productID = p.ID 
+              AND od.UserId =? AND od.OdrderStatus =1) > 0`;
+}
+
+module.exports = {listProducts, getProductDetails, addProduct};

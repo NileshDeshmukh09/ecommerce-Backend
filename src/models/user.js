@@ -13,6 +13,7 @@ function signup(data, cb) {
         cb(err, result);
     });
 }
+
 // bcryptjs signup
 function strongSignup(data, cb){
     let sql = `INSERT INTO Users 
@@ -41,6 +42,7 @@ function getUsersSignupDetails(data, cb) {
         cb(err, result);
     });
 }
+
 function login(data, cb) {
     let sql = `SELECT ID as UserId, Username, UserType 
                FROM Users WHERE 
@@ -88,4 +90,8 @@ function getUserById(id, cb){
         cb(err, result);
     })
 }
+
 module.exports = {signup, getUsersSignupDetails,getUserById, login, strongSignup, strongLogin};
+
+// this is the database of Ecommerce website
+

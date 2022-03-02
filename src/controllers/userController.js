@@ -17,7 +17,8 @@ function signup(req, res) {
             if(result.length > 0) {
                 responseData.msg = "User already exists";
                 return res.status(500).send(responseData);
-            } else {
+            }
+            else {
                 User.strongSignup(data, function(err1, result1) {
                     if(err1) {
                         return res.status(500).send(responseData);
