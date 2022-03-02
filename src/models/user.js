@@ -64,7 +64,7 @@ function strongLogin(data, cb){
     sqlConnection.executeQuery(sql , values , function(err, result){
         const isValidPass = bcrypt.compareSync(data.password , result[0].Password);
         if(isValidPass){
-            const token = auth.newToken(result);
+            const token = auth.newToken(result[0]);
             const response =  [
                 {
                     UserId : result[0].UserId,
@@ -91,7 +91,6 @@ function getUserById(id, cb){
     })
 }
 
-module.exports = {signup, getUsersSignupDetails,getUserById, login, strongSignup, strongLogin};
+module.exports = { getUsersSignupDetails, getUserById, signup, login, strongSignup, strongLogin};
 
-// this is the database of Ecommerce website
 

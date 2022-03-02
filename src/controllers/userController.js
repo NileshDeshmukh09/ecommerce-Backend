@@ -53,7 +53,7 @@ function login(req, res) {
                 return res.status(500).send(responseData);
             }
             if(result.length == 0) {
-                responseData.msg = "Invalid Email Or Password";
+                responseData.msg = "Invalid UserName Or Password";
                 return res.status(500).send(responseData);
             }
             responseData.success = true;
@@ -63,6 +63,7 @@ function login(req, res) {
                 userId: result[0].UserId,
                 authToken : result[0].authToken
             };
+
             return res.status(200).send(responseData);
         })
     } else {
@@ -80,11 +81,13 @@ function isAuthenticated(req, res, next){
         console.log(err);
         return res.status(401).send({message : "Invalid Token"})
     }
+    console.log("Response from Token : ",response,"ResponseId :", response.id);
 
     const user = User.getUserById(response.id, function(err, result){
         if(err){
             return res.status(401).send({message : "Invalid User"})
         }
+        console.log("Result of User : ", result )
         req.user = result;
         next();
     });
