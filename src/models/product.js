@@ -7,6 +7,7 @@ function listProducts(data, cb) {
         // if we want to filter based on the category
         sql += " WHERE CategoryID = ?";
         values.push(data.categoryId);
+        
         if(data.minPrice){
             sql +="AND Price >= ?";
             values.push(data.minPrice);
@@ -46,11 +47,21 @@ function addProduct(data, cb){
 }
 
 function getProductDetails(data,cb){
-    var sql =`SELECT p.Name AS name , p.price AS price, p.description AS description,
+    var sql =`
+              SELECT p.Name AS name , p.price AS price, p.description AS description,
               if(SELECT COUNT(*) FROM OrderDetails AS od LEFT JOIN OrderItems AS oi 
               ON oi.OrderID = od.ID 
               WHERE oi.productID = p.ID 
-              AND od.UserId =? AND od.OdrderStatus =1) > 0`;
+              AND od.UserId =? AND od.OdrderStatus =1) > 0,1,0) As addedToCart
+              From Products AS p 
+              WHERE p.ID = ? LIMIT 1;
+              `;
+    var values = [];
+    values.push(data.userId);
+    values.push(data.productId);
+    sqlConnection.executeQuery(sql, values, function(err, result){
+        cb(err, result);
+    });
 }
 
 module.exports = {listProducts, getProductDetails, addProduct};

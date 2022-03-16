@@ -1,6 +1,5 @@
 const sqlConnection = require("../services/sqlConnection");
 
-
 function addOrderItem(data , cb){
     var sql =`INSERT INTO OrderItems 
               (OrderID , ProductID , Quantity , CreatedAt , UpdatedAt)
@@ -15,6 +14,7 @@ function addOrderItem(data , cb){
     })
 }
 
+
 function editOrderItem(data, cb){
     var sql = `UPDATE OrderItems SET 
                Quantity = ? , UpdatedAt = now()
@@ -28,6 +28,7 @@ function editOrderItem(data, cb){
     })
 }
 
+
 function deleteOrderItem(data,cb){
     var sql = `DELETE FROM OrderItems
                WHERE OrderId = ? AND ProductId = ? `;
@@ -39,8 +40,9 @@ function deleteOrderItem(data,cb){
     })
 }
 
+
 function getOrderItem(data, cb){
-    var sql = `DELETE FROM OrderItems
+    var sql = `SELECT * FROM OrderItems
     WHERE OrderID = ? AND ProductId = ? `;
     var values=[];
     values.push(data.orderId);
@@ -49,5 +51,6 @@ function getOrderItem(data, cb){
         cb(err, result);
     });
 }
+
 
 module.exports = {addOrderItem , editOrderItem,  deleteOrderItem, getOrderItem};

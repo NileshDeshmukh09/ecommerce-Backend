@@ -30,7 +30,7 @@ function findOrderByUser(data, cb){
 }
 
 function addOrder(data,cb){
-    var sql =`SELECT INTO OrderDetails
+    var sql =`INSERT INTO OrderDetails
               (Total, UserID, OrderStatus, CreatedAt, UpdtateAt)
               VALUES (? , ?, 1 , now() , now())`;
     var values=[];
